@@ -7,6 +7,7 @@ class ReadOnly(BasePermission):
     def has_permission(self, request, view):
         return request.method in SAFE_METHODS
 
+
 class IsOwnerOrReadOnly(BasePermission):
     """
     Объектный уровень разрешения - позволяет редактировать

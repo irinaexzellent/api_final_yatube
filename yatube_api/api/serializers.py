@@ -19,11 +19,9 @@ class CommentSerializer(serializers.ModelSerializer):
 
 
 class FollowSerializer(serializers.ModelSerializer):
-    user = SlugRelatedField(
-               slug_field='username',
-               queryset=User.objects.all(),
-               default=serializers.CurrentUserDefault()
-               )
+    user = SlugRelatedField(slug_field='username',
+                            queryset=User.objects.all(),
+                            default=serializers.CurrentUserDefault())
     following = serializers.SlugRelatedField(
         slug_field="username", queryset=User.objects.all()
     )
@@ -44,9 +42,8 @@ class FollowSerializer(serializers.ModelSerializer):
         Проверяет: 'user не равен 'following'.
         """
         if data['user'] == data['following']:
-            raise serializers.ValidationError(
-                                  "Вы не можете подписаться на себя."
-                                  )
+            raise serializers.ValidationError('Вы не можете'
+                                              'подписаться на себя.')
         return data
 
 
