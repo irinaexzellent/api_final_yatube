@@ -1,15 +1,16 @@
-from posts.models import Post, Group, Comment, Follow
-from .serializers import PostSerializer, GroupSerializer
-from .serializers import CommentSerializer, FollowSerializer
-from .permissions import IsOwnerOrReadOnly
-
+from django.shortcuts import get_object_or_404
 
 from rest_framework import filters
 from rest_framework import viewsets
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import action
 from rest_framework.pagination import LimitOffsetPagination
+from rest_framework.permissions import IsAuthenticated
 
-from django.shortcuts import get_object_or_404
+from .permissions import IsOwnerOrReadOnly
+from .serializers import CommentSerializer, FollowSerializer
+from .serializers import GroupSerializer, PostSerializer
+
+from posts.models import Comment, Follow, Group, Post
 
 
 class PostViewSet(viewsets.ModelViewSet):
@@ -29,6 +30,7 @@ class PostViewSet(viewsets.ModelViewSet):
         serializer.save(author=self.request.user)
 
 
+@action(detail=True, methods=['get'])
 class GroupViewSet(viewsets.ReadOnlyModelViewSet):
     """
     Простой ViewSet для просмотра групп.
@@ -66,6 +68,7 @@ class CommentViewSet(viewsets.ModelViewSet):
         return post.comments.all()
 
 
+@action(detail=True, methods=['get', 'post'])
 class FollowViewSet(viewsets.ModelViewSet):
     """
     Простой ViewSet для выполнения подписок на авторов.
@@ -76,7 +79,6 @@ class FollowViewSet(viewsets.ModelViewSet):
     Объектный уровень разрешений -- позволяет
     выполнять подписки только аутифицированному пользователю.
     """
-    queryset = Follow.objects.all()
     serializer_class = FollowSerializer
     permission_classes = (IsAuthenticated,)
     filter_backends = (filters.SearchFilter,)
