@@ -68,7 +68,7 @@ class CommentViewSet(viewsets.ModelViewSet):
         return post.comments.all()
 
 
-@action(detail=True, methods=['get', 'post'])
+@action(detail=True, gmethods=['get', 'post'])
 class FollowViewSet(viewsets.ModelViewSet):
     """
     Простой ViewSet для выполнения подписок на авторов.
