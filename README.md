@@ -11,7 +11,7 @@ git clone git@github.com:irinaexzellent/api_final_yatube.git
 ```
 
 ```
-cd ytube_api
+cd yatube_api
 ```
 Cоздать и активировать виртуальное окружение:
 
